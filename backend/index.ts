@@ -4,22 +4,7 @@ import express from 'express'
 import * as dotenv from 'dotenv'
 import { Client } from 'pg'
 import { CategoryDb, NoteDb } from './interfaces'
-
-interface Category {
-  id: number
-  name: string
-  description: string | null
-}
-interface Note {
-  id: number
-  author: string | null
-  title: string | null
-  content: string
-  created: string
-  updated: string
-  categoryName: string
-  categoryDescription: string | null
-}
+import { Category, Note } from '../shared/interfaces'
 
 dotenv.config()
 
@@ -44,8 +29,8 @@ app.get('/api/notes', async (_req: Request, res: Response<Note[]>) => {
     author: row.note_author,
     title: row.note_title,
     content: row.note_content,
-    created: row.note_created,
-    updated: row.note_updated,
+    created: row.note_created_at,
+    updated: row.note_updated_at,
     categoryName: row.category_name,
     categoryDescription: row.category_description,
   }))

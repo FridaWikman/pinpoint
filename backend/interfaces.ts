@@ -9,8 +9,8 @@ export interface NoteDb {
   note_author: string | null
   note_title: string | null
   note_content: string
-  note_created: string
-  note_updated: string
+  note_created_at: string
+  note_updated_at: string
   category_name: string
   category_description: string | null
 }

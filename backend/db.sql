@@ -1,23 +1,23 @@
 CREATE DATABASE pinpoint;
 
 CREATE TABLE categories (
-  categoryId serial PRIMARY KEY,
-  categoryName TEXT NOT NULL UNIQUE,
-  categoryDescription TEXT
+  category_id serial PRIMARY KEY,
+  category_name TEXT NOT NULL UNIQUE,
+  category_description TEXT
 );
 
 CREATE TABLE notes (
-  noteId serial PRIMARY KEY,
-  noteAuthor TEXT,
-  noteTitle TEXT,
-  noteContent TEXT NOT NULL,
-  noteCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  noteUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  noteCategoryId INT NOT NULL,
-  FOREIGN KEY (noteCategoryId) REFERENCES categories(categoryId) ON DELETE CASCADE
+  note_id serial PRIMARY KEY,
+  note_author TEXT,
+  note_title TEXT,
+  note_content TEXT NOT NULL,
+  note_category INT NOT NULL,
+  note_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  note_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (note_category) REFERENCES categories(category_id) ON DELETE CASCADE
 );
 
-INSERT INTO categories (categoryName, categoryDescription) VALUES
+INSERT INTO categories (category_name, category_description) VALUES
 ('Personligt', 'Anteckningar för privata tankar, mål och reflektioner.'),
 ('Arbete', 'Arbetsrelaterade anteckningar som mötesanteckningar, uppgifter eller deadlines.'),
 ('Shopping', 'Inköpslistor för mat, kläder eller andra saker att köpa.'),
@@ -27,7 +27,7 @@ INSERT INTO categories (categoryName, categoryDescription) VALUES
 ('Att göra', 'En allmän kategori för alla typer av att-göra-listor och uppgifter.'),
 ('Evenemang', 'Planering och idéer för kommande födelsedagar, fester eller andra evenemang.');
 
-INSERT INTO notes (noteTitle, noteContent, noteCategoryId)
+INSERT INTO notes (note_title, note_content, note_category)
 VALUES
 ('Mål för 2024',
  'Börja träna tre gånger i veckan.',

@@ -19,12 +19,12 @@ CREATE TABLE notes (
 
 INSERT INTO categories (categoryName, categoryDescription) VALUES
 ('Personligt', 'Anteckningar för privata tankar, mål och reflektioner.'),
-('Arbete', '	Arbetsrelaterade anteckningar som mötesanteckningar, uppgifter eller deadlines.'),
+('Arbete', 'Arbetsrelaterade anteckningar som mötesanteckningar, uppgifter eller deadlines.'),
 ('Shopping', 'Inköpslistor för mat, kläder eller andra saker att köpa.'),
 ('Ideér', 'Utkast eller tankar för projekt, uppfinningar eller kreativa projekt.'),
 ('Resor', 'Planering och packlistor för resor, eller anteckningar från dina äventyr.'),
 ('Hälsa och träning', 'Träningsscheman, kostplaner och hälsomål.'),
-('Att göra', '	En allmän kategori för alla typer av att-göra-listor och uppgifter.'),
+('Att göra', 'En allmän kategori för alla typer av att-göra-listor och uppgifter.'),
 ('Evenemang', 'Planering och idéer för kommande födelsedagar, fester eller andra evenemang.');
 
 INSERT INTO notes (noteTitle, noteContent, noteCategoryId)

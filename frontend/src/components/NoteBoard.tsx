@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Container, Row, Col, Card, Badge } from 'react-bootstrap'
+import { Card, Badge } from 'react-bootstrap'
 import { Note } from '../../../shared/interfaces'
 import { Trash3, PencilSquare } from 'react-bootstrap-icons'
+import '../index.css'
 
 export default function NotesBoard() {
   const [notes, setNotes] = useState<Note[]>([])
@@ -31,34 +32,32 @@ export default function NotesBoard() {
     return date.toLocaleDateString('sv-SE', options)
   }
   return (
-    <Container className="mt-5" fluid>
-      <Row xs="auto">
-        {notes ? (
-          notes.map((note) => (
-            <Col key={note.id}>
-              <Card style={{ width: '18rem' }}>
-                <Card.Header className="d-flex justify-content-between">
-                  {convertDate(note.created)}{' '}
-                  <Badge bg="info">{note.categoryName}</Badge>
-                </Card.Header>
-                <Card.Body>
-                  <Card.Title>{note.title}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">
-                    {note.author}
-                  </Card.Subtitle>
-                  <Card.Text>{note.content}</Card.Text>
-                </Card.Body>
-                <Card.Footer className="d-flex justify-content-end">
-                  <PencilSquare role="button" />
-                  <Trash3 className="ms-1" role="button" />
-                </Card.Footer>
-              </Card>
-            </Col>
-          ))
-        ) : (
-          <p>Lägg till en anteckning</p>
-        )}
-      </Row>
-    </Container>
+    <div className="mt-5 bigContainer">
+      {notes ? (
+        notes.map((note) => (
+          <Card key={note.id} className="noteCard">
+            <Card.Header className="d-flex justify-content-between">
+              <Badge bg="info">{note.categoryName}</Badge>
+              <span>
+                <PencilSquare role="button" />
+                <Trash3 className="ms-1" role="button" />
+              </span>
+            </Card.Header>
+            <Card.Body className="pb-0 d-flex flex-column">
+              <Card.Title>{note.title}</Card.Title>
+              <Card.Subtitle></Card.Subtitle>
+              <Card.Text className="mb-2">{note.content}</Card.Text>
+              <Card.Text className="mt-auto mb-1 text-muted d-flex justify-content-between">
+                {note.author ? <span>{note.author}</span> : <span>Anonym</span>}
+
+                {convertDate(note.created)}
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        ))
+      ) : (
+        <p>Lägg till en anteckning</p>
+      )}
+    </div>
   )
 }

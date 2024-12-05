@@ -1,3 +1,14 @@
+.bigContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.noteCard {
+  min-height: 11rem;
+  margin-right: 15px;
+  width: 18rem;
+}
+
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

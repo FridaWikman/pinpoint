@@ -11,5 +11,6 @@ export interface Note {
   created: string
   updated: string
   categoryName: string
+  category?: number
   categoryDescription: string | null
 }

@@ -3,10 +3,7 @@ import NoteBoard from './components/NoteBoard'
 
 function App() {
   return (
-    <main
-      className="py-5 mx-5 min-vh-100"
-      style={{ paddingLeft: '3rem', paddingRight: '3rem' }}
-    >
+    <main className="min-vh-100">
       <NoteBoard></NoteBoard>
     </main>
   )

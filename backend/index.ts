@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import express from 'express'
 import * as dotenv from 'dotenv'
 import { Client } from 'pg'
-import { CategoryDb, NoteDb } from './interfaces'
+import { CategoryDb, NoteDb } from './interfaces/interfaces'
 import { Category, Note } from '../shared/interfaces'
 
 dotenv.config()
@@ -19,6 +19,10 @@ const port = process.env.PORT || 3000
 
 app.use(cors())
 app.use(express.json())
+
+app.listen(port, () => {
+  console.log(`Redo på http://localhost:${port}/`)
+})
 
 app.get('/api/notes', async (_req: Request, res: Response<Note[]>) => {
   const { rows } = await client.query<NoteDb>(
@@ -49,6 +53,16 @@ app.get('/api/categories', async (_req: Request, res: Response<Category[]>) => {
   res.send(categories)
 })
 
-app.listen(port, () => {
-  console.log(`Redo på http://localhost:${port}/`)
+app.post('/api/add-note', async (req: Request, res: Response) => {
+  const { author, title, content, category } = req.body as Note
+  try {
+    const { rows } = await client.query<NoteDb>(
+      'INSERT INTO notes (note_author, note_title, note_content, note_category) VALUES ($1,$2,$3,$4) RETURNING *',
+      [author, title, content, category]
+    )
+    res.status(201).json(rows[0])
+  } catch (error) {
+    console.error('Error inserting data:', error)
+    res.status(500).send('Server error')
+  }
 })

@@ -23,14 +23,9 @@ When(
   () => {
     cy.get('[data-cy=show-add-note-modal-button]').click()
     cy.get('[data-cy=add-note-modal]').should('be.visible')
-    cy.get('[data-cy=add-note-title]').type('Till Kalle')
-    cy.get('[data-cy=add-note-note]').type(
-      'Glöm inte att vi ska hem till dina föräldrar i eftermiddag. Du behöver köpa en present.'
-    )
-    cy.get('[data-cy=add-note-categories-dropdown]').click()
-    cy.get('[data-cy=add-note-categories-dropdown] .dropdown-menu')
-      .contains('Personligt')
-      .click()
+    cy.get('[data-cy=add-note-title]').type('Presentation')
+    cy.get('[data-cy=add-note-note]').type('Förbered presentation till torsdag')
+    cy.get('.form-select').select(1).should('contain', 'Arbete')
     cy.get('[data-cy=add-note-author]').type('Anna')
     cy.get('[data-cy=add-note-send-button]').click()
   }

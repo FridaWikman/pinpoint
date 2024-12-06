@@ -18,7 +18,7 @@ Given('I am on the homepage and sees the button for add note', () => {
   })
 })
 
-Given('I see the modal an the form', () => {
+Given('I see the modal and the form', () => {
   cy.get('[data-cy=add-note-modal]').should('be-visable')
   cy.get('data-cy=add-note-form').should('be.visible')
 })
@@ -32,7 +32,10 @@ When('I put values in all fields in the form. I click on send-button', () => {
   cy.get('[data-cy=add-note-note]').type(
     'Glöm inte att vi ska hem till dina föräldrar i eftermiddag. Du behöver köpa en present.'
   )
-  cy.get('[data-cy=add-note-categories]').select('Personligt')
+  cy.get('[data-cy=add-note-categories-dropdown]').click()
+  cy.get('[data-cy=add-note-categories-dropdown] .dropdown-menu')
+    .contains('Personligt')
+    .click()
   cy.get('[data-cy=add-note-author]').type('Anna')
   cy.get('[data-cy=add-note-send-button]').click()
 })

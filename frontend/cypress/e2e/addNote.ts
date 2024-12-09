@@ -1,17 +1,9 @@
-import {
-  When,
-  Then,
-  Given,
-  Before,
-} from '@badeball/cypress-cucumber-preprocessor'
+import { When, Then, Given } from '@badeball/cypress-cucumber-preprocessor'
 
 let initialLengthOfNotes: number
 
-Before(() => {
-  cy.visit('http://localhost:5173/')
-})
-
 Given('I am on the homepage and sees the button for add note', () => {
+  cy.visit('/')
   cy.get('[data-cy=show-add-note-modal-button').should('be.visible')
   cy.get('[data-cy=notes-list-item]').then((items) => {
     initialLengthOfNotes = items.length

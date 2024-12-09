@@ -55,7 +55,9 @@ export default function NotesBoard() {
                 </Card.Header>
                 <Card.Body className="pb-0 d-flex flex-column">
                   <Card.Title>{note.title}</Card.Title>
-                  <Card.Text className="mb-2">{note.content}</Card.Text>
+                  <Card.Text data-cy="note-card-content" className="mb-2">
+                    {note.content}
+                  </Card.Text>
                   <Card.Text className="mt-auto mb-1 text-muted d-flex justify-content-between">
                     {note.author ? (
                       <span>{note.author}</span>

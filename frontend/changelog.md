@@ -16,3 +16,7 @@ Fre 24-12-06
 
 - Changed how to click on right element in dropdown menu in addNote.ts test.
 - Created component for button and modal with add-note form. Bdd-test is now working and i can post a new note. Created endpoint for post note.
+
+Mån 24-12-09
+
+- Created baseUrl. Tried to create component test and remove errors for a while and got help from teatcher. Wrote a component test that controlls if there is any items in my list and that the element, in which note content is show, is not empty.

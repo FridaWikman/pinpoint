@@ -4,7 +4,7 @@ import express from 'express'
 import * as dotenv from 'dotenv'
 import { Client } from 'pg'
 import { CategoryDb, NoteDb } from './interfaces/interfaces'
-import { Category, Note } from '../shared/interfaces'
+import { Category, DeleteNote, Note } from '../shared/interfaces'
 
 dotenv.config()
 
@@ -64,5 +64,18 @@ app.post('/api/add-note', async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Error inserting data:', error)
     res.status(500).send('Server error')
+  }
+})
+
+app.delete('/api/delete-note', async (req: Request, res: Response) => {
+  const { id } = req.body as DeleteNote
+  try {
+    const { rows } = await client.query<DeleteNote>(
+      'DELETE FROM notes WHERE note_id = $1',
+      [id]
+    )
+    res.status(201).json({ messege: 'Successfully deleted note' })
+  } catch (error) {
+    console.error('Error deleting', error)
   }
 })

@@ -3,8 +3,12 @@ export interface Category {
   name: string
   description: string | null
 }
-export interface Note {
+
+export interface DeleteNote {
   id: number
+}
+
+export interface Note extends DeleteNote {
   author: string | null
   title: string | null
   content: string

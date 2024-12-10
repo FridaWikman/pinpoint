@@ -3,7 +3,11 @@ import { PlusCircle } from 'react-bootstrap-icons'
 import { Modal, Button, Form } from 'react-bootstrap'
 import { Category } from '../../../shared/interfaces'
 
-export default function AddNoteModal() {
+interface AddNoteModalProps {
+  getNotes: () => void
+}
+
+export default function AddNoteModal({ getNotes }: AddNoteModalProps) {
   const [modalVisible, setModalVisible] = useState(false),
     [categories, setCategories] = useState<Category[]>([]),
     [title, setTitle] = useState(''),
@@ -47,7 +51,7 @@ export default function AddNoteModal() {
     } catch (error) {
       console.error('Error in POST request:', error)
     } finally {
-      window.location.reload()
+      getNotes()
     }
   }
 

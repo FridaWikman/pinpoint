@@ -20,3 +20,7 @@ Fre 24-12-06
 Mån 24-12-09
 
 - Created baseUrl. Tried to create component test and remove errors for a while and got help from teatcher. Wrote a component test that controlls if there is any items in my list and that the element, in which note content is show, is not empty.
+
+Tis 24-12-10
+
+- Created modal component DeleteNote and used props to get note values. created funvtion for delete note and endpoint. Sent getNotes function as props to DeleteNote and AddNoteModal to be able to update list. Added and extended an interface.

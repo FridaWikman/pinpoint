@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Card, Badge } from 'react-bootstrap'
 import { Note } from '../../../shared/interfaces'
-import { Trash3, PencilSquare } from 'react-bootstrap-icons'
+import { PencilSquare } from 'react-bootstrap-icons'
 import '../index.css'
 import AddNoteModal from './AddNoteModal'
-import DeleteModal from './DeleteNote'
+import DeleteNoteModal from './DeleteNoteModal'
 
 export default function NotesBoard() {
-  const [notes, setNotes] = useState<Note[]>([]),
-    [showModal, setShowModal] = useState(false),
-    [note, setNote] = useState<Note | null>(null)
-
-  const handleOpenModal = () => setShowModal(true)
-  const handleCloseModal = () => setShowModal(false)
+  const [notes, setNotes] = useState<Note[]>([])
+  // [note, setNote] = useState<Note | null>(null)
 
   const getNotes = async () => {
     try {
@@ -54,16 +50,9 @@ export default function NotesBoard() {
               >
                 <Card.Header className="d-flex justify-content-between">
                   <Badge bg="info">{note.categoryName}</Badge>
-                  <span>
+                  <span className="d-flex align-items-center">
                     <PencilSquare role="button" />
-                    <Trash3
-                      className="ms-1"
-                      role="button"
-                      onClick={() => {
-                        setNote(note)
-                        handleOpenModal()
-                      }}
-                    />
+                    <DeleteNoteModal note={note} getNotes={getNotes} />
                   </span>
                 </Card.Header>
 
@@ -89,12 +78,6 @@ export default function NotesBoard() {
           )}
         </div>
       </div>
-      <DeleteModal
-        show={showModal}
-        onClose={handleCloseModal}
-        note={note}
-        getNotes={getNotes}
-      />
 
       <AddNoteModal getNotes={getNotes} />
     </div>

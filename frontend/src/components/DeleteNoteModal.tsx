@@ -1,19 +1,19 @@
 import { Modal, Button } from 'react-bootstrap'
 import { Note } from '../../../shared/interfaces'
+import { Trash3 } from 'react-bootstrap-icons'
+import { useState } from 'react'
 
 interface DeleteModalProps {
-  show: boolean
-  onClose: () => void
-  note: Note | null
+  note: Note
   getNotes: () => void
 }
 
-export default function DeleteModal({
-  show,
-  onClose,
-  note,
-  getNotes,
-}: DeleteModalProps) {
+export default function DeleteModal({ note, getNotes }: DeleteModalProps) {
+  const [modalVisible, setModalVisible] = useState(false)
+
+  const handleClose = () => setModalVisible(false)
+  const handleShow = () => setModalVisible(true)
+
   const deleteNote = async (id: number) => {
     const requestOptions = {
       method: 'DELETE',
@@ -26,14 +26,13 @@ export default function DeleteModal({
       console.error('Error in DELETE request:', error)
     } finally {
       getNotes()
-      onClose()
     }
   }
 
   return (
-    <div>
-      {note && (
-        <Modal show={show} onHide={onClose}>
+    <>
+      <div>
+        <Modal show={modalVisible} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Ta bort antecking</Modal.Title>
           </Modal.Header>
@@ -44,7 +43,7 @@ export default function DeleteModal({
             </p>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={onClose} variant="secondary">
+            <Button onClick={handleClose} variant="secondary">
               Stäng
             </Button>
             <Button
@@ -57,7 +56,8 @@ export default function DeleteModal({
             </Button>
           </Modal.Footer>
         </Modal>
-      )}
-    </div>
+      </div>
+      <Trash3 className="ms-1" role="button" onClick={handleShow} />
+    </>
   )
 }

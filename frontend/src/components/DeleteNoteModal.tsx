@@ -8,7 +8,7 @@ interface DeleteModalProps {
   getNotes: () => void
 }
 
-export default function DeleteModal({ note, getNotes }: DeleteModalProps) {
+export default function DeleteNoteModal({ note, getNotes }: DeleteModalProps) {
   const [modalVisible, setModalVisible] = useState(false)
 
   const handleClose = () => setModalVisible(false)
@@ -39,7 +39,10 @@ export default function DeleteModal({ note, getNotes }: DeleteModalProps) {
           <Modal.Body>
             <p>
               Vill du ta bort antecking{' '}
-              <span className="fst-italic">{note.title}</span>?
+              <span data-cy="delete-modal-text" className="fst-italic">
+                {note.title}
+              </span>
+              ?
             </p>
           </Modal.Body>
           <Modal.Footer>
@@ -47,6 +50,7 @@ export default function DeleteModal({ note, getNotes }: DeleteModalProps) {
               Stäng
             </Button>
             <Button
+              data-cy="delete-note-button"
               onClick={() => {
                 deleteNote(note.id)
               }}
@@ -57,7 +61,12 @@ export default function DeleteModal({ note, getNotes }: DeleteModalProps) {
           </Modal.Footer>
         </Modal>
       </div>
-      <Trash3 className="ms-1" role="button" onClick={handleShow} />
+      <Trash3
+        data-cy="delete-note-icon"
+        className="ms-1"
+        role="button"
+        onClick={handleShow}
+      />
     </>
   )
 }

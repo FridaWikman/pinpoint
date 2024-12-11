@@ -24,3 +24,4 @@ Mån 24-12-09
 Tis 24-12-10
 
 - Created modal component DeleteNote and used props to get note values. created funvtion for delete note and endpoint. Sent getNotes function as props to DeleteNote and AddNoteModal to be able to update list. Added and extended an interface.
+- Moved Trash icon into DeleteNoteModal and changed so the modal is now opening and closing in the same way as AddNoteModal.

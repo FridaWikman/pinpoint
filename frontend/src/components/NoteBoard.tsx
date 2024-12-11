@@ -8,7 +8,6 @@ import DeleteNoteModal from './DeleteNoteModal'
 
 export default function NotesBoard() {
   const [notes, setNotes] = useState<Note[]>([])
-  // [note, setNote] = useState<Note | null>(null)
 
   const getNotes = async () => {
     try {

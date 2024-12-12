@@ -40,7 +40,7 @@ export default function NotesBoard() {
           className="d-flex flex-wrap"
           style={{ maxWidth: '80%' }}
         >
-          {notes ? (
+          {notes && notes.length > 0 ? (
             notes.map((note) => (
               <Card
                 key={note.id}
@@ -51,7 +51,11 @@ export default function NotesBoard() {
                   <Badge bg="info">{note.categoryName}</Badge>
                   <span className="d-flex align-items-center">
                     <PencilSquare role="button" />
-                    <DeleteNoteModal note={note} getNotes={getNotes} />
+                    <DeleteNoteModal
+                      noteId={note.id}
+                      noteTitle={note.title}
+                      getNotes={getNotes}
+                    />
                   </span>
                 </Card.Header>
 
@@ -73,7 +77,9 @@ export default function NotesBoard() {
               </Card>
             ))
           ) : (
-            <p>Lägg till en anteckning</p>
+            <h2 data-cy="empty-list-messege">
+              Din anslagstavla är tom. Klicka på plus för att lägga till en ny.
+            </h2>
           )}
         </div>
       </div>

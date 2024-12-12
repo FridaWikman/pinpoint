@@ -1,14 +1,18 @@
 import { Modal, Button } from 'react-bootstrap'
-import { Note } from '../../../shared/interfaces'
 import { Trash3 } from 'react-bootstrap-icons'
 import { useState } from 'react'
 
 interface DeleteModalProps {
-  note: Note
+  noteId: number
+  noteTitle: string | null
   getNotes: () => void
 }
 
-export default function DeleteNoteModal({ note, getNotes }: DeleteModalProps) {
+export default function DeleteNoteModal({
+  noteId,
+  noteTitle,
+  getNotes,
+}: DeleteModalProps) {
   const [modalVisible, setModalVisible] = useState(false)
 
   const handleClose = () => setModalVisible(false)
@@ -32,27 +36,31 @@ export default function DeleteNoteModal({ note, getNotes }: DeleteModalProps) {
   return (
     <>
       <div>
-        <Modal show={modalVisible} onHide={handleClose}>
+        <Modal data-cy="delete-modal" show={modalVisible} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Ta bort antecking</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <p>
               Vill du ta bort antecking{' '}
-              <span data-cy="delete-modal-text" className="fst-italic">
-                {note.title}
+              <span data-cy="delete-modal-title" className="fst-italic">
+                {noteTitle}
               </span>
               ?
             </p>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={handleClose} variant="secondary">
-              Stäng
+            <Button
+              data-cy="delete-modal-cancel"
+              onClick={handleClose}
+              variant="secondary"
+            >
+              Avbryt
             </Button>
             <Button
               data-cy="delete-note-button"
               onClick={() => {
-                deleteNote(note.id)
+                deleteNote(noteId)
               }}
               variant="danger"
             >

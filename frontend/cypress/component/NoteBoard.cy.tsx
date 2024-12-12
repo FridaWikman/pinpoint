@@ -23,9 +23,7 @@ describe('<NoteBoard />', () => {
     cy.wait('@emptyNoteList')
     cy.get('[data-cy=empty-list-messege]')
       .should('be.visible')
-      .and(
-        'contain',
-        'Din anslagstavla är tom. Klicka på plus för att lägga till en ny.'
-      )
+      .and('contain', 'Din anslagstavla är tom.')
+    cy.get('[data-cy=notes-list-item]').should('not.exist')
   })
 })

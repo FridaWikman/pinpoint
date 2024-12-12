@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { PlusCircle } from 'react-bootstrap-icons'
+import { Sticky } from 'react-bootstrap-icons'
 import { Modal, Button, Form } from 'react-bootstrap'
 import { Category } from '../../../shared/interfaces'
 
@@ -128,13 +128,23 @@ export default function AddNoteModal({ getNotes }: AddNoteModalProps) {
         </Modal.Footer>
       </Modal>
 
-      <PlusCircle
+      <div
+        className="position-fixed bottom-0 start-50 translate-middle-x mb-5 text-center"
+        role="button"
+        onClick={handleShow}
+        data-cy="show-add-note-modal-button"
+      >
+        <Sticky size={52} />
+        <span className="d-block mt-2">Skapa anteckning</span>
+      </div>
+      {/* <PlusCircle
         className="position-fixed bottom-0 start-50 translate-middle-x mb-5"
         size={52}
         data-cy="show-add-note-modal-button"
         onClick={handleShow}
         role="button"
-      />
+        textRendering="Skapa anteckning"
+      /> */}
     </div>
   )
 }

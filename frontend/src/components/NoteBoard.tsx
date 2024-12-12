@@ -77,9 +77,7 @@ export default function NotesBoard() {
               </Card>
             ))
           ) : (
-            <h2 data-cy="empty-list-messege">
-              Din anslagstavla är tom. Klicka på plus för att lägga till en ny.
-            </h2>
+            <h2 data-cy="empty-list-messege">Din anslagstavla är tom.</h2>
           )}
         </div>
       </div>

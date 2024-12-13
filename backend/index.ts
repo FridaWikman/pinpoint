@@ -60,7 +60,21 @@ app.post('/api/add-note', async (req: Request, res: Response) => {
       'INSERT INTO notes (note_author, note_title, note_content, note_category) VALUES ($1,$2,$3,$4) RETURNING *',
       [author, title, content, category]
     )
-    res.status(201).json(rows[0])
+    res.status(201).json(rows)
+  } catch (error) {
+    console.error('Error inserting data:', error)
+    res.status(500).send('Server error')
+  }
+})
+
+app.post('/api/add-category', async (req: Request, res: Response) => {
+  const { name, description } = req.body as Category
+  try {
+    const { rows } = await client.query<CategoryDb>(
+      'INSERT INTO categories (category_name, category_description) VALUES ($1,$2) RETURNING *',
+      [name, description]
+    )
+    res.status(201).json(rows)
   } catch (error) {
     console.error('Error inserting data:', error)
     res.status(500).send('Server error')
@@ -70,10 +84,7 @@ app.post('/api/add-note', async (req: Request, res: Response) => {
 app.delete('/api/delete-note', async (req: Request, res: Response) => {
   const { id } = req.body as DeleteNote
   try {
-    const { rows } = await client.query<DeleteNote>(
-      'DELETE FROM notes WHERE note_id = $1',
-      [id]
-    )
+    await client.query<DeleteNote>('DELETE FROM notes WHERE note_id = $1', [id])
     res.status(201).json({ messege: 'Successfully deleted note' })
   } catch (error) {
     console.error('Error deleting', error)

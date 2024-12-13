@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Card, Badge } from 'react-bootstrap'
-import { Note } from '../../../shared/interfaces'
+import { Note, Category } from '../../../shared/interfaces'
 import { PencilSquare } from 'react-bootstrap-icons'
 import '../index.css'
 import AddNoteModal from './AddNoteModal'
 import DeleteNoteModal from './DeleteNoteModal'
+import AddCategoryModal from './AddCategoryModal'
+import { Slide, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function NotesBoard() {
-  const [notes, setNotes] = useState<Note[]>([])
+  const [notes, setNotes] = useState<Note[]>([]),
+    [categories, setCategories] = useState<Category[]>([])
 
   const getNotes = async () => {
     try {
@@ -19,8 +23,19 @@ export default function NotesBoard() {
     }
   }
 
+  const getCategories = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/categories')
+      const result: [] = await response.json()
+      setCategories(result)
+    } catch (error) {
+      console.error('Error fetching notes:', error)
+    }
+  }
+
   useEffect(() => {
     getNotes()
+    getCategories()
   }, [])
 
   const convertDate = (dateToConvert: string): string => {
@@ -34,6 +49,19 @@ export default function NotesBoard() {
   }
   return (
     <div className="d-flex flex-column min-vh-100 ">
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Slide}
+      />
       <div className="mt-5 bigContainer justify-content-center">
         <div
           id="testContainer"
@@ -81,8 +109,13 @@ export default function NotesBoard() {
           )}
         </div>
       </div>
-
-      <AddNoteModal getNotes={getNotes} />
+      <div className="d-flex position-fixed bottom-0 start-50 translate-middle-x mb-5">
+        <AddNoteModal categories={categories} getNotes={getNotes} />
+        <AddCategoryModal
+          categories={categories}
+          getCategories={getCategories}
+        />
+      </div>
     </div>
   )
 }

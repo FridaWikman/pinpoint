@@ -1,15 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Sticky } from 'react-bootstrap-icons'
 import { Modal, Button, Form } from 'react-bootstrap'
 import { Category } from '../../../shared/interfaces'
 
 interface AddNoteModalProps {
+  categories: Category[]
   getNotes: () => void
 }
 
-export default function AddNoteModal({ getNotes }: AddNoteModalProps) {
+export default function AddNoteModal({
+  categories,
+  getNotes,
+}: AddNoteModalProps) {
   const [modalVisible, setModalVisible] = useState(false),
-    [categories, setCategories] = useState<Category[]>([]),
     [title, setTitle] = useState(''),
     [content, setContent] = useState(''),
     [category, setCategory] = useState(''),
@@ -17,16 +20,6 @@ export default function AddNoteModal({ getNotes }: AddNoteModalProps) {
 
   const handleClose = () => setModalVisible(false)
   const handleShow = () => setModalVisible(true)
-
-  const getCategories = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/api/categories')
-      const result: [] = await response.json()
-      setCategories(result)
-    } catch (error) {
-      console.error('Error fetching notes:', error)
-    }
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -54,10 +47,6 @@ export default function AddNoteModal({ getNotes }: AddNoteModalProps) {
       getNotes()
     }
   }
-
-  useEffect(() => {
-    getCategories()
-  }, [])
 
   return (
     <div className="d-flex flex-column">
@@ -129,7 +118,7 @@ export default function AddNoteModal({ getNotes }: AddNoteModalProps) {
       </Modal>
 
       <div
-        className="position-fixed bottom-0 start-50 translate-middle-x mb-5 text-center"
+        className="text-center mx-2"
         role="button"
         onClick={handleShow}
         data-cy="show-add-note-modal-button"
@@ -137,14 +126,6 @@ export default function AddNoteModal({ getNotes }: AddNoteModalProps) {
         <Sticky size={52} />
         <span className="d-block mt-2">Skapa anteckning</span>
       </div>
-      {/* <PlusCircle
-        className="position-fixed bottom-0 start-50 translate-middle-x mb-5"
-        size={52}
-        data-cy="show-add-note-modal-button"
-        onClick={handleShow}
-        role="button"
-        textRendering="Skapa anteckning"
-      /> */}
     </div>
   )
 }

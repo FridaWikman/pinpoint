@@ -12,7 +12,7 @@ describe('<AddCategoryModal/>', () => {
 
   it('verifies add-categori-icon is visible and modal is not visible', () => {
     cy.get('[data-cy=add-category-icon]').should('be.visible')
-    cy.get('[data-cy=add-category-icon-test]')
+    cy.get('[data-cy=add-category-icon-text]')
       .should('be.visible')
       .and('contain', 'Lägg till kategori')
     cy.get('[data-cy=category-modal]').should('not.exist')
@@ -29,11 +29,8 @@ describe('<AddCategoryModal/>', () => {
   })
 
   it('verifies first and last category in list contains right text', () => {
-    cy.get('[data-cy=add-category-current-categories]')
-      .first()
-      .should('contain', 'Personligt')
-    cy.get('[data-cy=add-category-current-categories]')
-      .last()
-      .should('contain', 'Arbete')
+    cy.get('[data-cy=add-category-icon]').click()
+    cy.get('[data-cy="badge-1"]').first().should('contain.text', 'Personligt')
+    cy.get('[data-cy="badge-2"]').last().should('contain.text', 'Arbete')
   })
 })

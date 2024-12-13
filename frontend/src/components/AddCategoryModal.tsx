@@ -1,17 +1,20 @@
 import { Tag } from 'react-bootstrap-icons'
-import { Category } from '../../../shared/interfaces'
+import { Category, Note } from '../../../shared/interfaces'
 import { Modal, Form, Button, Badge } from 'react-bootstrap'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { X } from 'react-bootstrap-icons'
 
 interface AddCategoryModalProps {
   categories: Category[]
   getCategories: () => void
+  notes: Note[]
 }
 
 export default function AddCategoryModal({
   categories,
   getCategories,
+  notes = [],
 }: AddCategoryModalProps) {
   const [category, setCategory] = useState(''),
     [modalVisible, setModalVisible] = useState(false)
@@ -29,7 +32,6 @@ export default function AddCategoryModal({
         name: category,
       }),
     }
-
     try {
       const response = await fetch(
         'http://localhost:3000/api/add-category',
@@ -41,7 +43,29 @@ export default function AddCategoryModal({
       console.error('Error in POST request:', error)
     } finally {
       getCategories()
-      toast.success(<div>Kategori {category} har lagts till.</div>)
+      toast.success(<div>Kategori {category} har lagts till</div>)
+    }
+  }
+
+  const deleteCategory = async (id: number, categoryName: string) => {
+    const exists = notes.some((note) => note.categoryName === categoryName)
+    if (exists) {
+      toast.warning(
+        <div>Denna kategori används i en anteckning och kan inte tas bort</div>
+      )
+    } else {
+      const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      }
+      try {
+        await fetch('http://localhost:3000/api/delete-category', requestOptions)
+      } catch (error) {
+        console.error('Error in DELETE request:', error)
+      } finally {
+        getCategories()
+      }
     }
   }
 
@@ -62,7 +86,11 @@ export default function AddCategoryModal({
                   className="mx-1"
                   bg="info"
                 >
-                  {category.name}
+                  {category.name}{' '}
+                  <X
+                    role="button"
+                    onClick={() => deleteCategory(category.id, category.name)}
+                  />
                 </Badge>
               ))
             ) : (
@@ -105,9 +133,9 @@ export default function AddCategoryModal({
         onClick={handleShow}
         data-cy="add-category-icon"
       >
-        <Tag size={52} />
+        <Tag size={40} />
         <span data-cy="add-category-icon-text" className="d-block mt-2">
-          Lägg till kategori
+          Hantera kategorier
         </span>
       </div>
     </div>

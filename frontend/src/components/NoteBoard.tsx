@@ -47,11 +47,12 @@ export default function NotesBoard() {
     }
     return date.toLocaleDateString('sv-SE', options)
   }
+
   return (
     <div className="d-flex flex-column min-vh-100 ">
       <ToastContainer
         position="top-center"
-        autoClose={3000}
+        autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -111,9 +112,11 @@ export default function NotesBoard() {
       </div>
       <div className="d-flex position-fixed bottom-0 start-50 translate-middle-x mb-5">
         <AddNoteModal categories={categories} getNotes={getNotes} />
+
         <AddCategoryModal
           categories={categories}
           getCategories={getCategories}
+          notes={notes}
         />
       </div>
     </div>

@@ -123,7 +123,7 @@ export default function AddNoteModal({
         onClick={handleShow}
         data-cy="show-add-note-modal-button"
       >
-        <Sticky size={52} />
+        <Sticky size={40} />
         <span className="d-block mt-2">Skapa anteckning</span>
       </div>
     </div>

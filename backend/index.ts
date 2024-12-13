@@ -4,7 +4,12 @@ import express from 'express'
 import * as dotenv from 'dotenv'
 import { Client } from 'pg'
 import { CategoryDb, NoteDb } from './interfaces/interfaces'
-import { Category, DeleteNote, Note } from '../shared/interfaces'
+import {
+  Category,
+  DeleteCategory,
+  DeleteNote,
+  Note,
+} from '../shared/interfaces'
 
 dotenv.config()
 
@@ -85,6 +90,19 @@ app.delete('/api/delete-note', async (req: Request, res: Response) => {
   const { id } = req.body as DeleteNote
   try {
     await client.query<DeleteNote>('DELETE FROM notes WHERE note_id = $1', [id])
+    res.status(201).json({ messege: 'Successfully deleted note' })
+  } catch (error) {
+    console.error('Error deleting', error)
+  }
+})
+
+app.delete('/api/delete-category', async (req: Request, res: Response) => {
+  const { id } = req.body as DeleteCategory
+  try {
+    await client.query<DeleteCategory>(
+      'DELETE FROM categories WHERE category_id = $1',
+      [id]
+    )
     res.status(201).json({ messege: 'Successfully deleted note' })
   } catch (error) {
     console.error('Error deleting', error)

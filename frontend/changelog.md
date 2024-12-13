@@ -25,3 +25,16 @@ Tis 24-12-10
 
 - Created modal component DeleteNote and used props to get note values. created funvtion for delete note and endpoint. Sent getNotes function as props to DeleteNote and AddNoteModal to be able to update list. Added and extended an interface.
 - Moved Trash icon into DeleteNoteModal and changed so the modal is now opening and closing in the same way as AddNoteModal.
+
+Ons 24-12-11
+
+- wrote a test DeleteNoteModal. Thinking about using it in an e2e test instead.
+
+Tors 24-12-12
+
+- wrote tests on DeleteNotemodal, using beforeEach. Added component test in NoteBoard. Testing component behaviour when list is empty. Created TDD-test. changes small stuff inn NoteBoard and AddNoteModal
+
+Fre 24-12-13
+
+- Created AddNoteModal and endpoint for post categories. i can now add a new category. I created toast as comfirmation message for when post i successful. added Tdd test.
+- Endpoint and functionality for deleting a category. Made a category that is in use not able to delete

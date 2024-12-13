@@ -1,5 +1,8 @@
-export interface Category {
+export interface DeleteCategory {
   id: number
+}
+
+export interface Category extends DeleteCategory {
   name: string
   description: string | null
 }

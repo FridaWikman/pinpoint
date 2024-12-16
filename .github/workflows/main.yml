@@ -37,10 +37,8 @@ jobs:
         run: |
           cd frontend
           npm run dev &
-          sleep 5
 
-      - name: Run Cypress tests
-        uses: cypress-io/github-action@v6
-        with:
-          working-directory: frontend
-          browser: electron
+      - name: Run Cypress E2E and Cucumber tests
+        run: |
+          cd frontend
+          npx cypress run

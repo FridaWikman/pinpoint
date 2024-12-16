@@ -14,7 +14,7 @@ describe('<AddCategoryModal/>', () => {
     cy.get('[data-cy=add-category-icon]').should('be.visible')
     cy.get('[data-cy=add-category-icon-text]')
       .should('be.visible')
-      .and('contain', 'Lägg till kategori')
+      .and('contain', 'Hantera kategorier')
     cy.get('[data-cy=category-modal]').should('not.exist')
   })
 

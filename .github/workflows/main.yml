@@ -1,4 +1,4 @@
-name: Testa Cypress
+name: Github actions, Cypress
 
 on: push
 
@@ -42,3 +42,8 @@ jobs:
         run: |
           cd frontend
           npx cypress run
+
+      - name: Run Cypress component test
+        run: |
+          cd frontend
+          npx cypress run --component

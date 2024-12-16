@@ -29,10 +29,10 @@ module.exports = defineConfig({
   },
 
   component: {
-    specPattern: 'cypress/components/**/*.cy.{js,ts,jsx,tsx}',
     devServer: {
       framework: 'react',
       bundler: 'vite',
     },
+    specPattern: 'cypress/components/**/*.{js,ts,jsx,tsx}',
   },
 })

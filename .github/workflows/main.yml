@@ -1,0 +1,49 @@
+name: Github actions, Cypress
+
+on: push
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          npm install
+
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Start backend
+        run: |
+          cd backend
+          npm run dev &
+
+        env:
+          PGURI: ${{ secrets.PGURI }}
+
+      - name: Start frontend
+        run: |
+          cd frontend
+          npm run dev &
+
+      - name: Run Cypress E2E and Cucumber tests
+        run: |
+          cd frontend
+          npx cypress run
+
+      - name: Run Cypress component test
+        run: |
+          cd frontend
+          npx cypress run --component

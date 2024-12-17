@@ -7,7 +7,13 @@ describe('<AddCategoryModal/>', () => {
   ]
 
   beforeEach(() => {
-    cy.mount(<AddCategoryModal categories={mockCategories} />)
+    cy.mount(
+      <AddCategoryModal
+        categories={mockCategories}
+        getCategories={cy.stub()}
+        notes={[]}
+      />
+    )
   })
 
   it('verifies add-categori-icon is visible and modal is not visible', () => {

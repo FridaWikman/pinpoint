@@ -1,17 +1,12 @@
-export interface DeleteCategory {
+export interface Delete {
   id: number
 }
-
-export interface Category extends DeleteCategory {
+export interface Category extends Delete {
   name: string
   description: string | null
 }
 
-export interface DeleteNote {
-  id: number
-}
-
-export interface Note extends DeleteNote {
+export interface Note extends Delete {
   author: string | null
   title: string | null
   content: string

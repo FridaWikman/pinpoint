@@ -17,10 +17,22 @@ export default function AddCategoryModal({
   notes = [],
 }: AddCategoryModalProps) {
   const [category, setCategory] = useState(''),
-    [modalVisible, setModalVisible] = useState(false)
+    [modalVisible, setModalVisible] = useState(false),
+    [isInvalid, setIsInvalid] = useState(false)
 
   const handleClose = () => setModalVisible(false)
   const handleShow = () => setModalVisible(true)
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setCategory(value)
+    const exists = categories.some((category) => category.name === value)
+    if (exists) {
+      setIsInvalid(true)
+    } else {
+      setIsInvalid(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -103,8 +115,13 @@ export default function AddCategoryModal({
               <Form.Control
                 type="text"
                 placeholder="Kategori"
-                onChange={(e) => setCategory(e.target.value)}
+                value={category}
+                onChange={handleCategoryChange}
+                isInvalid={isInvalid}
               />
+              <Form.Control.Feedback type="invalid">
+                Kategorin finns redan
+              </Form.Control.Feedback>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -121,6 +138,7 @@ export default function AddCategoryModal({
             variant="primary"
             type="submit"
             onClick={handleClose}
+            disabled={isInvalid}
           >
             Lägg till
           </Button>

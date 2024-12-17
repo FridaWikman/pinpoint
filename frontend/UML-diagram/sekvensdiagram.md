@@ -11,7 +11,7 @@ participant DB as PostgreSQL
     alt is a new category
     UI->>Service: Sends form-data
     else category already exists
-    UI->>User: Shows toast message
+    UI->>User: Shows error message
     end
     Service->>DB: INSERT INTO statement
     DB-->>Service: Returns success

@@ -11,7 +11,11 @@ import 'react-toastify/dist/ReactToastify.css'
 
 export default function NotesBoard() {
   const [notes, setNotes] = useState<Note[]>([]),
-    [categories, setCategories] = useState<Category[]>([])
+    [categories, setCategories] = useState<Category[]>([]),
+    [modalVisible, setModalVisible] = useState(false),
+    [noteToEdit, setNoteToEdit] = useState<Note | null>(null)
+
+  const toggleModalVisible = () => setModalVisible(true)
 
   const getNotes = async () => {
     try {
@@ -79,7 +83,13 @@ export default function NotesBoard() {
                 <Card.Header className="d-flex justify-content-between">
                   <Badge bg="info">{note.categoryName}</Badge>
                   <span className="d-flex align-items-center">
-                    <PencilSquare role="button" />
+                    <PencilSquare
+                      role="button"
+                      onClick={() => {
+                        setNoteToEdit(note)
+                        toggleModalVisible()
+                      }}
+                    />
                     <DeleteNoteModal
                       noteId={note.id}
                       noteTitle={note.title}
@@ -111,7 +121,14 @@ export default function NotesBoard() {
         </div>
       </div>
       <div className="d-flex position-fixed bottom-0 start-50 translate-middle-x mb-5">
-        <AddNoteModal categories={categories} getNotes={getNotes} />
+        <AddNoteModal
+          categories={categories}
+          getNotes={getNotes}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          noteToEdit={noteToEdit}
+          setNoteToEdit={setNoteToEdit}
+        />
 
         <AddCategoryModal
           categories={categories}

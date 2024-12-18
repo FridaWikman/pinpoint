@@ -23,7 +23,8 @@ export default function AddNoteModal({
   const [title, setTitle] = useState(''),
     [content, setContent] = useState(''),
     [category, setCategory] = useState(''),
-    [author, setAuthor] = useState('')
+    [author, setAuthor] = useState(''),
+    [isInvalid, setIsInvalid] = useState(false)
 
   const handleClose = () => {
     setModalVisible(false), setNoteToEdit(null)
@@ -49,6 +50,16 @@ export default function AddNoteModal({
       setAuthor('')
     }
   }, [noteToEdit, categories])
+
+  const handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setContent(value)
+    if (value === '' || value === null) {
+      setIsInvalid(true)
+    } else {
+      setIsInvalid(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -105,8 +116,12 @@ export default function AddNoteModal({
                 as="textarea"
                 placeholder="Lägg till anteckning"
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
+                onChange={handleContentChange}
+                isInvalid={isInvalid}
               />
+              <Form.Control.Feedback type="invalid">
+                Fältet är obligatoriskt
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formCategories">
               <Form.Label>Kategori</Form.Label>
@@ -145,6 +160,7 @@ export default function AddNoteModal({
             form="addNoteForm"
             variant="primary"
             type="submit"
+            disabled={isInvalid || !content || content === ''}
           >
             {noteToEdit ? 'Ändra' : 'Lägg till'}
           </Button>

@@ -144,7 +144,7 @@ export default function AddCategoryModal({
             variant="primary"
             type="submit"
             onClick={handleClose}
-            disabled={isInvalid}
+            disabled={isInvalid || !category || category === ''}
           >
             Lägg till
           </Button>

@@ -1,0 +1,21 @@
+describe('Add and delete category', () => {
+  beforeEach(() => {
+    cy.visit('/')
+  })
+  it('opens modal and adds category. Opens modal and deletes the new category', () => {
+    cy.get('[data-cy=add-category-icon]').click()
+    cy.get('[data-cy=category-modal]').should('be.visible')
+    cy.get('[data-cy=add-category-input]').type('Test')
+    cy.get('[data-cy=add-category-submit]').click()
+    cy.get('[data-cy=category-modal]').should('not.exist')
+    cy.get('[data-cy=add-category-icon]').click()
+    cy.get('[data-cy=category-modal]').should('be.visible')
+    cy.get('[data-cy=badge]')
+      .last()
+      .should('contain', 'Test')
+      .find('[data-cy=delete-category]')
+      .should('exist')
+      .click()
+    cy.get('[data-cy=badge]').last().should('not.contain', 'Test')
+  })
+})

@@ -36,7 +36,7 @@ describe('<AddCategoryModal/>', () => {
 
   it('verifies first and last category in list contains right text', () => {
     cy.get('[data-cy=add-category-icon]').click()
-    cy.get('[data-cy="badge-1"]').first().should('contain.text', 'Personligt')
-    cy.get('[data-cy="badge-2"]').last().should('contain.text', 'Arbete')
+    cy.get('[data-cy="badge"]').first().should('contain.text', 'Personligt')
+    cy.get('[data-cy="badge"]').last().should('contain.text', 'Arbete')
   })
 })

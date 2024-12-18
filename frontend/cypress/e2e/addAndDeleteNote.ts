@@ -35,6 +35,7 @@ When(
     cy.get('.form-select').select(1).should('contain', 'Arbete')
     cy.get('[data-cy=add-note-author]').type('Anna')
     cy.get('[data-cy=add-note-send-button]').click()
+    cy.wait(500)
   }
 )
 
@@ -44,9 +45,11 @@ When('I click on trash-icon. I click on delete button', () => {
     .should('contain', 'Test anteckning')
     .find('[data-cy=delete-note-icon]')
     .click()
+
   cy.get('[data-cy=delete-modal]').should('be.visible')
   cy.get('[data-cy=delete-modal-title]').should('have.text', 'Test anteckning')
   cy.get('[data-cy=delete-note-button]').click()
+  cy.wait(500)
 })
 
 Then(

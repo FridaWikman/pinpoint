@@ -56,6 +56,7 @@ export default function AddCategoryModal({
     } finally {
       getCategories()
       toast.success(<div>Kategori {category} har lagts till</div>)
+      setCategory('')
     }
   }
 
@@ -93,16 +94,19 @@ export default function AddCategoryModal({
             {categories ? (
               categories.map((category) => (
                 <Badge
-                  data-cy={`badge-${category.id}`}
+                  data-cy="badge"
                   key={category.id}
                   className="mx-1"
                   bg="info"
                 >
                   {category.name}{' '}
-                  <X
+                  <span
+                    data-cy="delete-category"
                     role="button"
                     onClick={() => deleteCategory(category.id, category.name)}
-                  />
+                  >
+                    <X />
+                  </span>
                 </Badge>
               ))
             ) : (
@@ -113,6 +117,7 @@ export default function AddCategoryModal({
             <Form.Group>
               <Form.Label>Lägg till en kategori</Form.Label>
               <Form.Control
+                data-cy="add-category-input"
                 type="text"
                 placeholder="Kategori"
                 value={category}
@@ -134,6 +139,7 @@ export default function AddCategoryModal({
             Stäng
           </Button>
           <Button
+            data-cy="add-category-submit"
             form="addCategoryForm"
             variant="primary"
             type="submit"

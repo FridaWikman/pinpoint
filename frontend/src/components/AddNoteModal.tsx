@@ -31,7 +31,6 @@ export default function AddNoteModal({
 
   useEffect(() => {
     if (noteToEdit) {
-      console.log(noteToEdit)
       setTitle(noteToEdit.title || '')
       setContent(noteToEdit.content || '')
 
@@ -53,9 +52,8 @@ export default function AddNoteModal({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     const requestOptions = {
-      method: 'POST',
+      method: noteToEdit ? 'PUT' : 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         author,
@@ -64,17 +62,18 @@ export default function AddNoteModal({
         category,
       }),
     }
+    const url = noteToEdit
+      ? `http://localhost:3000/api/update-note/${noteToEdit.id}`
+      : 'http://localhost:3000/api/add-note'
     try {
-      const response = await fetch(
-        'http://localhost:3000/api/add-note',
-        requestOptions
-      )
+      const response = await fetch(url, requestOptions)
       const data = await response.json()
       console.log(data)
     } catch (error) {
       console.error('Error in POST request:', error)
     } finally {
       getNotes()
+      handleClose()
     }
   }
 
@@ -146,7 +145,6 @@ export default function AddNoteModal({
             form="addNoteForm"
             variant="primary"
             type="submit"
-            onClick={handleClose}
           >
             {noteToEdit ? 'Ändra' : 'Lägg till'}
           </Button>

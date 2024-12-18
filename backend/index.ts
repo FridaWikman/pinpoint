@@ -30,32 +30,42 @@ app.listen(port, () => {
 })
 
 app.get('/api/notes', async (_req: Request, res: Response<Note[]>) => {
-  const { rows } = await client.query<NoteDb>(
-    'SELECT notes.note_id, notes.note_author, notes.note_title, notes.note_content, notes.note_created_at, notes.note_updated_at, categories.category_name, categories.category_description FROM notes JOIN categories ON categories.category_id = notes.note_category'
-  )
-  const notes: Note[] = rows.map((row) => ({
-    id: row.note_id,
-    author: row.note_author,
-    title: row.note_title,
-    content: row.note_content,
-    created: row.note_created_at,
-    updated: row.note_updated_at,
-    categoryName: row.category_name,
-    categoryDescription: row.category_description,
-  }))
-  res.send(notes)
+  try {
+    const { rows } = await client.query<NoteDb>(
+      'SELECT notes.note_id, notes.note_author, notes.note_title, notes.note_content, notes.note_created_at, notes.note_updated_at, categories.category_name, categories.category_description FROM notes JOIN categories ON categories.category_id = notes.note_category'
+    )
+    const notes: Note[] = rows.map((row) => ({
+      id: row.note_id,
+      author: row.note_author,
+      title: row.note_title,
+      content: row.note_content,
+      created: row.note_created_at,
+      updated: row.note_updated_at,
+      categoryName: row.category_name,
+      categoryDescription: row.category_description,
+    }))
+    res.send(notes)
+  } catch (error) {
+    console.error('Error fetching notes:', error)
+    res.status(500).send()
+  }
 })
 
 app.get('/api/categories', async (_req: Request, res: Response<Category[]>) => {
-  const { rows } = await client.query<CategoryDb>('SELECT * FROM categories')
+  try {
+    const { rows } = await client.query<CategoryDb>('SELECT * FROM categories')
 
-  const categories: Category[] = rows.map((row) => ({
-    id: row.category_id,
-    name: row.category_name,
-    description: row.category_description,
-  }))
+    const categories: Category[] = rows.map((row) => ({
+      id: row.category_id,
+      name: row.category_name,
+      description: row.category_description,
+    }))
 
-  res.send(categories)
+    res.send(categories)
+  } catch (error) {
+    console.error('Error fetching notes:', error)
+    res.status(500).send()
+  }
 })
 
 app.post('/api/add-note', async (req: Request, res: Response) => {
@@ -86,15 +96,32 @@ app.post('/api/add-category', async (req: Request, res: Response) => {
   }
 })
 
+app.put('/api/update-note/:id', async (req: Request, res: Response) => {
+  const { author, title, content, category } = req.body as Note
+  const { id } = req.params
+
+  try {
+    const { rows } = await client.query<NoteDb>(
+      'UPDATE notes SET note_author = $1, note_title = $2, note_content = $3, note_category = $4 WHERE note_id = $5 RETURNING *',
+      [author, title, content, category, id]
+    )
+    res.status(200).json(rows)
+  } catch (error) {
+    console.error('Error inserting data:', error)
+    res.status(500).send('Server error')
+  }
+})
+
 app.delete('/api/delete-note', async (req: Request, res: Response) => {
   const { id } = req.body as Delete
   try {
     await client.query<DeleteNoteDb>('DELETE FROM notes WHERE note_id = $1', [
       id,
     ])
-    res.status(201).json({ messege: 'Successfully deleted note' })
+    res.status(200).send()
   } catch (error) {
     console.error('Error deleting', error)
+    res.status(500).send('Server error')
   }
 })
 
@@ -105,8 +132,9 @@ app.delete('/api/delete-category', async (req: Request, res: Response) => {
       'DELETE FROM categories WHERE category_id = $1',
       [id]
     )
-    res.status(201).json({ messege: 'Successfully deleted note' })
+    res.status(200).send()
   } catch (error) {
     console.error('Error deleting', error)
+    res.status(500).send('Server error')
   }
 })

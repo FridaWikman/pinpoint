@@ -10,6 +10,11 @@ const {
 const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
+  env: {
+    codeCoverage: {
+      exclude: 'cypress/**/*.*',
+    },
+  },
   e2e: {
     async setupNodeEvents(on, config) {
       const bundler = createBundler({
@@ -32,6 +37,11 @@ module.exports = defineConfig({
     devServer: {
       framework: 'react',
       bundler: 'vite',
+    },
+    setupNodeEvents(on, config) {
+      require('@cypress/code-coverage/task')(on, config)
+
+      return config
     },
     specPattern: 'cypress/component/**/*.{js,ts,jsx,tsx}',
   },

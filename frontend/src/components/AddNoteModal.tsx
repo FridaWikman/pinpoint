@@ -44,12 +44,16 @@ export default function AddNoteModal({
 
       setAuthor(noteToEdit.author || '')
     } else {
-      setTitle('')
-      setContent('')
-      setCategory('')
-      setAuthor('')
+      resetForm()
     }
   }, [noteToEdit, categories])
+
+  const resetForm = () => {
+    setTitle('')
+    setContent('')
+    setCategory('')
+    setAuthor('')
+  }
 
   const handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -85,6 +89,7 @@ export default function AddNoteModal({
     } finally {
       getNotes()
       handleClose()
+      resetForm()
     }
   }
 

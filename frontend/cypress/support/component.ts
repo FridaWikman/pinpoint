@@ -21,6 +21,7 @@ import './commands'
 // require('./commands')
 
 import { mount } from 'cypress/react18'
+import '@cypress/code-coverage/support'
 
 declare global {
   namespace Cypress {

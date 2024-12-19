@@ -108,7 +108,7 @@ export default function AddNoteModal({
     <div className="d-flex flex-column">
       <Modal data-cy="add-note-modal" show={modalVisible} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>
+          <Modal.Title data-cy="modal-title">
             {noteToEdit ? 'Redigera anteckning' : 'Skapa anteckning'}
           </Modal.Title>
         </Modal.Header>

@@ -84,6 +84,7 @@ export default function NotesBoard() {
                   <Badge bg="info">{note.categoryName}</Badge>
                   <span className="d-flex align-items-center">
                     <PencilSquare
+                      data-cy="edit-note-button"
                       role="button"
                       onClick={() => {
                         setNoteToEdit(note)

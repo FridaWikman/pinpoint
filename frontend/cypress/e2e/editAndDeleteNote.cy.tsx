@@ -43,9 +43,6 @@ describe('edit note', () => {
     cy.get('[data-cy=add-note-author]').should('have.value', 'Test namn')
     cy.get('[data-cy=add-note-send-button]').should('contain', 'Ändra').click()
     cy.wait(500)
-  })
-
-  it('finds the edited note, verifies its values and clicks on delete-icon. It verifies right values in delete modal, click on delete button and see that the note does not exist', () => {
     cy.get('[data-cy=notes-list-item]')
       .last()
       .should('contain', 'Ny titel')
@@ -65,6 +62,3 @@ describe('edit note', () => {
       .and('not.contain', 'Ny anteckning')
   })
 })
-
-// })
-// it('finds the edited note, verifies its values and clicks on delete-icon. It verifies right values in delete modal, click on delete button and see that the note does not exist', () => {

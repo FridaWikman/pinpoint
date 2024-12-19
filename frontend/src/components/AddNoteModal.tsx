@@ -105,6 +105,7 @@ export default function AddNoteModal({
   }
 
   return (
+    //kommentar för psuh
     <div className="d-flex flex-column">
       <Modal data-cy="add-note-modal" show={modalVisible} onHide={handleClose}>
         <Modal.Header closeButton>

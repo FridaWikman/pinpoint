@@ -25,14 +25,10 @@ const port = process.env.PORT || 3000
 app.use(cors())
 app.use(express.json())
 
-app.listen(port, () => {
-  console.log(`Redo på http://localhost:${port}/`)
-})
-
 app.get('/api/notes', async (_req: Request, res: Response<Note[]>) => {
   try {
     const { rows } = await client.query<NoteDb>(
-      'SELECT notes.note_id, notes.note_author, notes.note_title, notes.note_content, notes.note_created_at, notes.note_updated_at, categories.category_name, categories.category_description FROM notes JOIN categories ON categories.category_id = notes.note_category'
+      'SELECT notes.note_id, notes.note_author, notes.note_title, notes.note_content, notes.note_created_at, notes.note_updated_at, categories.category_name, categories.category_description FROM notes JOIN categories ON categories.category_id = notes.note_category ORDER BY notes.note_created_at ASC'
     )
     const notes: Note[] = rows.map((row) => ({
       id: row.note_id,
@@ -137,4 +133,8 @@ app.delete('/api/delete-category', async (req: Request, res: Response) => {
     console.error('Error deleting', error)
     res.status(500).send('Server error')
   }
+})
+
+app.listen(port, () => {
+  console.log(`Redo på http://localhost:${port}/`)
 })

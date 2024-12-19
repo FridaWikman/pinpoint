@@ -24,10 +24,18 @@ export default function AddNoteModal({
     [content, setContent] = useState(''),
     [category, setCategory] = useState(''),
     [author, setAuthor] = useState(''),
-    [isInvalid, setIsInvalid] = useState(false)
+    [isInvalid, setIsInvalid] = useState(false),
+    [categoryIsInvalid, setCategoryIsInvalid] = useState(false)
 
   const handleClose = () => {
     setModalVisible(false), setNoteToEdit(null)
+  }
+
+  const resetForm = () => {
+    setTitle('')
+    setContent('')
+    setCategory('')
+    setAuthor('')
   }
 
   useEffect(() => {
@@ -40,6 +48,7 @@ export default function AddNoteModal({
       )
       if (selectedCategory) {
         setCategory(selectedCategory.id.toString())
+        setCategoryIsInvalid(false)
       }
 
       setAuthor(noteToEdit.author || '')
@@ -48,13 +57,6 @@ export default function AddNoteModal({
     }
   }, [noteToEdit, categories])
 
-  const resetForm = () => {
-    setTitle('')
-    setContent('')
-    setCategory('')
-    setAuthor('')
-  }
-
   const handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setContent(value)
@@ -62,6 +64,15 @@ export default function AddNoteModal({
       setIsInvalid(true)
     } else {
       setIsInvalid(false)
+    }
+  }
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value
+    setCategory(value)
+    if (value === '' || value === null) {
+      setCategoryIsInvalid(true)
+    } else {
+      setCategoryIsInvalid(false)
     }
   }
 
@@ -134,14 +145,19 @@ export default function AddNoteModal({
                 data-cy="add-note-categories-dropdown"
                 role="button"
                 value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={handleCategoryChange}
+                isInvalid={categoryIsInvalid}
               >
+                <option value="">Välj kategori</option>
                 {categories.map((category) => (
                   <option key={category.id} value={category.id}>
                     {category.name}
                   </option>
                 ))}
               </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                Fältet är obligatoriskt
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formAuthor">
               <Form.Label>Namn</Form.Label>
@@ -165,7 +181,14 @@ export default function AddNoteModal({
             form="addNoteForm"
             variant="primary"
             type="submit"
-            disabled={isInvalid || !content || content === ''}
+            disabled={
+              isInvalid ||
+              categoryIsInvalid ||
+              !content ||
+              content === '' ||
+              !category ||
+              category === ''
+            }
           >
             {noteToEdit ? 'Ändra' : 'Lägg till'}
           </Button>

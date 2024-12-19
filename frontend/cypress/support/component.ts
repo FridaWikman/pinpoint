@@ -16,12 +16,12 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+import '@cypress/code-coverage/support'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
 import { mount } from 'cypress/react18'
-import '@cypress/code-coverage/support'
 
 declare global {
   namespace Cypress {

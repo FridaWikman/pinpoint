@@ -62,4 +62,3 @@ describe('edit note', () => {
       .and('not.contain', 'Ny anteckning')
   })
 })
-// Comment for testing GitHub actions

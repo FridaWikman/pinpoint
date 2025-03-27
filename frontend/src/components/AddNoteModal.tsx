@@ -117,6 +117,7 @@ export default function AddNoteModal({
             <Form.Group className="mb-3" controlId="formTitle">
               <Form.Label>Titel</Form.Label>
               <Form.Control
+                autoComplete="off"
                 data-cy="add-note-title"
                 type="text"
                 placeholder="Lägg till titel"
@@ -162,6 +163,7 @@ export default function AddNoteModal({
             <Form.Group className="mb-3" controlId="formAuthor">
               <Form.Label>Namn</Form.Label>
               <Form.Control
+                autoComplete="off"
                 data-cy="add-note-author"
                 type="text"
                 placeholder="Skriv ditt namn"

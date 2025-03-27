@@ -46,7 +46,7 @@ export default function NotesBoard() {
     const date = new Date(dateToConvert)
     const options: Intl.DateTimeFormatOptions = {
       day: '2-digit',
-      month: 'numeric',
+      month: '2-digit',
       year: 'numeric',
     }
     return date.toLocaleDateString('sv-SE', options)
@@ -68,11 +68,7 @@ export default function NotesBoard() {
         transition={Slide}
       />
       <div className="mt-5 bigContainer justify-content-center">
-        <div
-          id="testContainer"
-          className="d-flex flex-wrap"
-          style={{ maxWidth: '80%' }}
-        >
+        <div id="testContainer" className="d-flex flex-wrap">
           {notes && notes.length > 0 ? (
             notes.map((note) => (
               <Card

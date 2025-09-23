@@ -1,56 +1,58 @@
-import { useEffect, useState } from 'react'
-import { Card, Badge } from 'react-bootstrap'
-import { Note, Category } from '../../../shared/interfaces'
-import { PencilSquare } from 'react-bootstrap-icons'
-import '../index.css'
-import AddNoteModal from './AddNoteModal'
-import DeleteNoteModal from './DeleteNoteModal'
-import AddCategoryModal from './AddCategoryModal'
-import { Slide, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { useEffect, useState } from "react";
+import { Card, Badge } from "react-bootstrap";
+import { Note, Category } from "../../../shared/interfaces";
+import { PencilSquare } from "react-bootstrap-icons";
+import "../index.css";
+import AddNoteModal from "./AddNoteModal";
+import DeleteNoteModal from "./DeleteNoteModal";
+import AddCategoryModal from "./AddCategoryModal";
+import { Slide, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function NotesBoard() {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const [notes, setNotes] = useState<Note[]>([]),
     [categories, setCategories] = useState<Category[]>([]),
     [modalVisible, setModalVisible] = useState(false),
-    [noteToEdit, setNoteToEdit] = useState<Note | null>(null)
+    [noteToEdit, setNoteToEdit] = useState<Note | null>(null);
 
-  const toggleModalVisible = () => setModalVisible(true)
+  const toggleModalVisible = () => setModalVisible(true);
 
   const getNotes = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/notes')
-      const result: [] = await response.json()
-      setNotes(result)
+      const response = await fetch(`${apiUrl}/api/notes`);
+      const result: [] = await response.json();
+      setNotes(result);
     } catch (error) {
-      console.error('Error fetching notes:', error)
+      console.error("Error fetching notes:", error);
     }
-  }
+  };
 
   const getCategories = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/categories')
-      const result: [] = await response.json()
-      setCategories(result)
+      const response = await fetch(`${apiUrl}/api/categories`);
+      const result: [] = await response.json();
+      setCategories(result);
     } catch (error) {
-      console.error('Error fetching notes:', error)
+      console.error("Error fetching notes:", error);
     }
-  }
+  };
 
   useEffect(() => {
-    getNotes()
-    getCategories()
-  }, [])
+    getNotes();
+    getCategories();
+  }, []);
 
   const convertDate = (dateToConvert: string): string => {
-    const date = new Date(dateToConvert)
+    const date = new Date(dateToConvert);
     const options: Intl.DateTimeFormatOptions = {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    }
-    return date.toLocaleDateString('sv-SE', options)
-  }
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    };
+    return date.toLocaleDateString("sv-SE", options);
+  };
 
   return (
     <div className="d-flex flex-column min-vh-100 ">
@@ -83,8 +85,8 @@ export default function NotesBoard() {
                       data-cy="edit-note-button"
                       role="button"
                       onClick={() => {
-                        setNoteToEdit(note)
-                        toggleModalVisible()
+                        setNoteToEdit(note);
+                        toggleModalVisible();
                       }}
                     />
                     <DeleteNoteModal
@@ -134,5 +136,5 @@ export default function NotesBoard() {
         />
       </div>
     </div>
-  )
+  );
 }

@@ -1,14 +1,14 @@
-import { Tag } from 'react-bootstrap-icons'
-import { Category, Note } from '../../../shared/interfaces'
-import { Modal, Form, Button, Badge } from 'react-bootstrap'
-import { useState } from 'react'
-import { toast } from 'react-toastify'
-import { X } from 'react-bootstrap-icons'
+import { Tag } from "react-bootstrap-icons";
+import { Category, Note } from "../../../shared/interfaces";
+import { Modal, Form, Button, Badge } from "react-bootstrap";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { X } from "react-bootstrap-icons";
 
 interface AddCategoryModalProps {
-  categories: Category[]
-  getCategories: () => void
-  notes: Note[]
+  categories: Category[];
+  getCategories: () => void;
+  notes: Note[];
 }
 
 export default function AddCategoryModal({
@@ -16,71 +16,73 @@ export default function AddCategoryModal({
   getCategories,
   notes = [],
 }: AddCategoryModalProps) {
-  const [category, setCategory] = useState(''),
-    [modalVisible, setModalVisible] = useState(false),
-    [isInvalid, setIsInvalid] = useState(false)
+  const apiUrl = import.meta.env.VITE_API_URL;
 
-  const handleClose = () => setModalVisible(false)
-  const handleShow = () => setModalVisible(true)
+  const [category, setCategory] = useState(""),
+    [modalVisible, setModalVisible] = useState(false),
+    [isInvalid, setIsInvalid] = useState(false);
+
+  const handleClose = () => setModalVisible(false);
+  const handleShow = () => setModalVisible(true);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setCategory(value)
-    const exists = categories.some((category) => category.name === value)
+    const value = e.target.value;
+    setCategory(value);
+    const exists = categories.some((category) => category.name === value);
     if (exists) {
-      setIsInvalid(true)
+      setIsInvalid(true);
     } else {
-      setIsInvalid(false)
+      setIsInvalid(false);
     }
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: category,
       }),
-    }
+    };
     try {
       const response = await fetch(
-        'http://localhost:3000/api/add-category',
+        `${apiUrl}/api/add-category`,
         requestOptions
-      )
-      const data = await response.json()
-      console.log(data)
+      );
+      const data = await response.json();
+      console.log(data);
     } catch (error) {
-      console.error('Error in POST request:', error)
+      console.error("Error in POST request:", error);
     } finally {
-      getCategories()
-      toast.success(<div>Kategori {category} har lagts till</div>)
-      setCategory('')
+      getCategories();
+      toast.success(<div>Kategori {category} har lagts till</div>);
+      setCategory("");
     }
-  }
+  };
 
   const deleteCategory = async (id: number, categoryName: string) => {
-    const exists = notes.some((note) => note.categoryName === categoryName)
+    const exists = notes.some((note) => note.categoryName === categoryName);
     if (exists) {
       toast.warning(
         <div>Denna kategori används i en anteckning och kan inte tas bort</div>
-      )
+      );
     } else {
       const requestOptions = {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
-      }
+      };
       try {
-        await fetch('http://localhost:3000/api/delete-category', requestOptions)
+        await fetch(`${apiUrl}/api/delete-category`, requestOptions);
       } catch (error) {
-        console.error('Error in DELETE request:', error)
+        console.error("Error in DELETE request:", error);
       } finally {
-        getCategories()
+        getCategories();
       }
     }
-  }
+  };
 
   return (
     <div>
@@ -99,7 +101,7 @@ export default function AddCategoryModal({
                   className="mx-1"
                   bg="info"
                 >
-                  {category.name}{' '}
+                  {category.name}{" "}
                   <span
                     data-cy="delete-category"
                     role="button"
@@ -144,7 +146,7 @@ export default function AddCategoryModal({
             variant="primary"
             type="submit"
             onClick={handleClose}
-            disabled={isInvalid || !category || category === ''}
+            disabled={isInvalid || !category || category === ""}
           >
             Lägg till
           </Button>
@@ -163,5 +165,5 @@ export default function AddCategoryModal({
         </span>
       </div>
     </div>
-  )
+  );
 }

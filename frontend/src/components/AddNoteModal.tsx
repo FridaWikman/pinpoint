@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react'
-import { Sticky } from 'react-bootstrap-icons'
-import { Modal, Button, Form } from 'react-bootstrap'
-import { Category, Note } from '../../../shared/interfaces'
+import { useState, useEffect } from "react";
+import { Sticky } from "react-bootstrap-icons";
+import { Modal, Button, Form } from "react-bootstrap";
+import { Category, Note } from "../../../shared/interfaces";
 
 interface AddNoteModalProps {
-  categories: Category[]
-  getNotes: () => void
-  modalVisible: boolean
-  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>
-  noteToEdit?: Note | null
-  setNoteToEdit: React.Dispatch<React.SetStateAction<Note | null>>
+  categories: Category[];
+  getNotes: () => void;
+  modalVisible: boolean;
+  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  noteToEdit?: Note | null;
+  setNoteToEdit: React.Dispatch<React.SetStateAction<Note | null>>;
 }
 
 export default function AddNoteModal({
@@ -20,96 +20,98 @@ export default function AddNoteModal({
   noteToEdit,
   setNoteToEdit,
 }: AddNoteModalProps) {
-  const [title, setTitle] = useState(''),
-    [content, setContent] = useState(''),
-    [category, setCategory] = useState(''),
-    [author, setAuthor] = useState(''),
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  const [title, setTitle] = useState(""),
+    [content, setContent] = useState(""),
+    [category, setCategory] = useState(""),
+    [author, setAuthor] = useState(""),
     [isInvalid, setIsInvalid] = useState(false),
-    [categoryIsInvalid, setCategoryIsInvalid] = useState(false)
+    [categoryIsInvalid, setCategoryIsInvalid] = useState(false);
 
   const handleClose = () => {
-    setModalVisible(false), setNoteToEdit(null)
-  }
+    setModalVisible(false), setNoteToEdit(null);
+  };
 
   const resetForm = () => {
-    setTitle('')
-    setContent('')
-    setCategory('')
-    setAuthor('')
-  }
+    setTitle("");
+    setContent("");
+    setCategory("");
+    setAuthor("");
+  };
 
   useEffect(() => {
     if (noteToEdit) {
-      setTitle(noteToEdit.title || '')
-      setContent(noteToEdit.content || '')
+      setTitle(noteToEdit.title || "");
+      setContent(noteToEdit.content || "");
 
       const selectedCategory = categories.find(
         (category) => category.name === noteToEdit.categoryName
-      )
+      );
       if (selectedCategory) {
-        setCategory(selectedCategory.id.toString())
-        setCategoryIsInvalid(false)
+        setCategory(selectedCategory.id.toString());
+        setCategoryIsInvalid(false);
       }
 
-      setAuthor(noteToEdit.author || '')
+      setAuthor(noteToEdit.author || "");
     } else {
-      resetForm()
+      resetForm();
     }
-  }, [noteToEdit, categories])
+  }, [noteToEdit, categories]);
 
   const handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setContent(value)
-    if (value === '' || value === null) {
-      setIsInvalid(true)
+    const value = e.target.value;
+    setContent(value);
+    if (value === "" || value === null) {
+      setIsInvalid(true);
     } else {
-      setIsInvalid(false)
+      setIsInvalid(false);
     }
-  }
+  };
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value
-    setCategory(value)
-    if (value === '' || value === null) {
-      setCategoryIsInvalid(true)
+    const value = e.target.value;
+    setCategory(value);
+    if (value === "" || value === null) {
+      setCategoryIsInvalid(true);
     } else {
-      setCategoryIsInvalid(false)
+      setCategoryIsInvalid(false);
     }
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     const requestOptions = {
-      method: noteToEdit ? 'PUT' : 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: noteToEdit ? "PUT" : "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         author,
         title,
         content,
         category,
       }),
-    }
+    };
     const url = noteToEdit
-      ? `http://localhost:3000/api/update-note/${noteToEdit.id}`
-      : 'http://localhost:3000/api/add-note'
+      ? `${apiUrl}/api/update-note/${noteToEdit.id}`
+      : `${apiUrl}/api/add-note`;
     try {
-      const response = await fetch(url, requestOptions)
-      const data = await response.json()
-      console.log(data)
+      const response = await fetch(url, requestOptions);
+      const data = await response.json();
+      console.log(data);
     } catch (error) {
-      console.error('Error in POST request:', error)
+      console.error("Error in POST request:", error);
     } finally {
-      getNotes()
-      handleClose()
-      resetForm()
+      getNotes();
+      handleClose();
+      resetForm();
     }
-  }
+  };
 
   return (
     <div className="d-flex flex-column">
       <Modal data-cy="add-note-modal" show={modalVisible} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title data-cy="modal-title">
-            {noteToEdit ? 'Redigera anteckning' : 'Skapa anteckning'}
+            {noteToEdit ? "Redigera anteckning" : "Skapa anteckning"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -187,12 +189,12 @@ export default function AddNoteModal({
               isInvalid ||
               categoryIsInvalid ||
               !content ||
-              content === '' ||
+              content === "" ||
               !category ||
-              category === ''
+              category === ""
             }
           >
-            {noteToEdit ? 'Ändra' : 'Lägg till'}
+            {noteToEdit ? "Ändra" : "Lägg till"}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -201,8 +203,8 @@ export default function AddNoteModal({
         className="text-center mx-2"
         role="button"
         onClick={() => {
-          setNoteToEdit(null)
-          setModalVisible(true)
+          setNoteToEdit(null);
+          setModalVisible(true);
         }}
         data-cy="show-add-note-modal-button"
       >
@@ -210,5 +212,5 @@ export default function AddNoteModal({
         <span className="d-block mt-2">Skapa anteckning</span>
       </div>
     </div>
-  )
+  );
 }

@@ -1,11 +1,11 @@
-import { Modal, Button } from 'react-bootstrap'
-import { Trash3 } from 'react-bootstrap-icons'
-import { useState } from 'react'
+import { Modal, Button } from "react-bootstrap";
+import { Trash3 } from "react-bootstrap-icons";
+import { useState } from "react";
 
 interface DeleteModalProps {
-  noteId: number
-  noteTitle: string | null
-  getNotes: () => void
+  noteId: number;
+  noteTitle: string | null;
+  getNotes: () => void;
 }
 
 export default function DeleteNoteModal({
@@ -13,25 +13,27 @@ export default function DeleteNoteModal({
   noteTitle,
   getNotes,
 }: DeleteModalProps) {
-  const [modalVisible, setModalVisible] = useState(false)
+  const apiUrl = import.meta.env.VITE_API_URL;
 
-  const handleClose = () => setModalVisible(false)
-  const handleShow = () => setModalVisible(true)
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleClose = () => setModalVisible(false);
+  const handleShow = () => setModalVisible(true);
 
   const deleteNote = async (id: number) => {
     const requestOptions = {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
-    }
+    };
     try {
-      await fetch('http://localhost:3000/api/delete-note', requestOptions)
+      await fetch(`${apiUrl}/api/delete-note`, requestOptions);
     } catch (error) {
-      console.error('Error in DELETE request:', error)
+      console.error("Error in DELETE request:", error);
     } finally {
-      getNotes()
+      getNotes();
     }
-  }
+  };
 
   return (
     <>
@@ -42,7 +44,7 @@ export default function DeleteNoteModal({
           </Modal.Header>
           <Modal.Body>
             <p>
-              Vill du ta bort antecking{' '}
+              Vill du ta bort antecking{" "}
               <span data-cy="delete-modal-title" className="fst-italic">
                 {noteTitle}
               </span>
@@ -60,7 +62,7 @@ export default function DeleteNoteModal({
             <Button
               data-cy="delete-note-button"
               onClick={() => {
-                deleteNote(noteId)
+                deleteNote(noteId);
               }}
               variant="danger"
             >
@@ -76,5 +78,5 @@ export default function DeleteNoteModal({
         onClick={handleShow}
       />
     </>
-  )
+  );
 }

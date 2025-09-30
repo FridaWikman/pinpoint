@@ -69,8 +69,8 @@ export default function NotesBoard() {
         theme="light"
         transition={Slide}
       />
-      <div className="mt-5 bigContainer justify-content-center">
-        <div id="testContainer" className="d-flex flex-wrap">
+      <div className="mt-5 bigContainer">
+        <div id="testContainer">
           {notes && notes.length > 0 ? (
             notes.map((note) => (
               <Card
@@ -119,7 +119,8 @@ export default function NotesBoard() {
           )}
         </div>
       </div>
-      <div className="d-flex position-fixed bottom-0 start-50 translate-middle-x mb-5">
+      <div className="footer-modals d-flex justify-content-center gap-3">
+        {/* className="d-flex position-fixed bottom-0 start-50 translate-middle-x mb-5" */}
         <AddNoteModal
           categories={categories}
           getNotes={getNotes}

@@ -200,7 +200,7 @@ export default function AddNoteModal({
       </Modal>
 
       <div
-        className="text-center mx-2"
+        className="text-center mx-2 py-2"
         role="button"
         onClick={() => {
           setNoteToEdit(null);

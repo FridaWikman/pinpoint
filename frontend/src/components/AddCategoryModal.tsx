@@ -154,7 +154,7 @@ export default function AddCategoryModal({
       </Modal>
 
       <div
-        className="mx-2 text-center"
+        className="mx-2 text-center py-2"
         role="button"
         onClick={handleShow}
         data-cy="add-category-icon"

@@ -8,3 +8,22 @@
   margin: 0 6px 15px 6px;
   width: 18rem;
 }
+
+.footer-modals {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  gap: 1rem;
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+}
+#testContainer {
+  padding-bottom: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}

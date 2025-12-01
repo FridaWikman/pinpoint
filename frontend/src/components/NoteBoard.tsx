@@ -75,7 +75,14 @@ export default function NotesBoard() {
       <div className="mt-5 bigContainer">
         <div id="testContainer">
           {loading ? (
-            <h2>Laddar innehåll...</h2>
+            <>
+              <div className="d-flex flex-column align-items-center">
+                <h2>Hämtar anteckningar...</h2>
+                <div className="spinner-border mt-4" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            </>
           ) : notes && notes.length > 0 ? (
             notes.map((note) => (
               <Card

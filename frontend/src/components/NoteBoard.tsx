@@ -15,8 +15,8 @@ export default function NotesBoard() {
   const [notes, setNotes] = useState<Note[]>([]),
     [categories, setCategories] = useState<Category[]>([]),
     [modalVisible, setModalVisible] = useState(false),
-    [noteToEdit, setNoteToEdit] = useState<Note | null>(null);
-  const [loading, setLoading] = useState(true);
+    [noteToEdit, setNoteToEdit] = useState<Note | null>(null),
+    [loading, setLoading] = useState(true);
 
   const toggleModalVisible = () => setModalVisible(true);
 

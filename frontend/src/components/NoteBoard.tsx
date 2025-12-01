@@ -16,6 +16,7 @@ export default function NotesBoard() {
     [categories, setCategories] = useState<Category[]>([]),
     [modalVisible, setModalVisible] = useState(false),
     [noteToEdit, setNoteToEdit] = useState<Note | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const toggleModalVisible = () => setModalVisible(true);
 
@@ -26,6 +27,8 @@ export default function NotesBoard() {
       setNotes(result);
     } catch (error) {
       console.error("Error fetching notes:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -71,7 +74,9 @@ export default function NotesBoard() {
       />
       <div className="mt-5 bigContainer">
         <div id="testContainer">
-          {notes && notes.length > 0 ? (
+          {loading ? (
+            <h2>Laddar innehåll...</h2>
+          ) : notes && notes.length > 0 ? (
             notes.map((note) => (
               <Card
                 key={note.id}
